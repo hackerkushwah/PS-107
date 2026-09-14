@@ -1,0 +1,6 @@
+{
+  "name": "ManakSetu: BIS & Indian Standards AI Assistant",
+  "description": "AI-powered intelligent assistant for Indian Standards, Quality Control Orders (QCO), BIS schemes, certification procedures, testing requirements, and consumer verification.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
