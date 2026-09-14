@@ -169,8 +169,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-slate-50 dark:bg-[#060d1a] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-600 selection:text-white relative transition-colors duration-300">
-      {/* 1. Dynamic 3D Woven Cloth Kinetic Landing Page */}
-      {showLanding && !showAuth && (
+      {/* 1. Landing Page View (Completely isolated) */}
+      {currentView === 'landing' && (
         <WovenLanding
           onEnterApp={handleEnterApp}
           onGetStarted={handleGetStarted}
@@ -181,8 +181,8 @@ export default function App() {
         />
       )}
 
-      {/* 2. The Animated Sign In / Sign Up Auth Page */}
-      {showAuth && (
+      {/* 2. Authentication Page View (Completely isolated) */}
+      {currentView === 'auth' && (
         <AuthPage
           onSuccess={handleAuthSuccess}
           onBackToLanding={handleBackToLanding}
@@ -193,51 +193,54 @@ export default function App() {
         />
       )}
 
-      {/* Decorative Subtle Background Visuals Filling the Empty Left & Right Margins */}
-      <SideFlankDecorations />
+      {/* 3. Main Portal UI (Completely isolated from Landing and Auth) */}
+      {currentView === 'portal' && (
+        <>
+          {/* Decorative Subtle Background Visuals Filling the Empty Left & Right Margins */}
+          <SideFlankDecorations />
 
-      {/* Global Navigation Header with reduced size and Home tab */}
-      <div className="relative z-10">
-        <Header
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          language={language}
-          setLanguage={setLanguage}
-          onOpenQuickSearch={() => setIsQuickSearchOpen(true)}
-          isDark={isDark}
-          onToggleTheme={toggleTheme}
-          userEmail={userEmail}
-          onOpenLanding={() => setCurrentView('auth')}
-          onGoToLanding={handleBackToLanding}
-          onSignOut={handleSignOut}
-        />
-      </div>
-
-      {/* Live QCO Alert & Announcement Ribbon - Sleek and compact */}
-      <div className="relative z-10 bg-amber-50/90 dark:bg-amber-950/30 border-b border-amber-200/80 dark:border-amber-800/40 px-3 sm:px-6 lg:px-8 py-1.5 text-xs text-amber-950 dark:text-amber-200 transition-colors duration-300">
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 overflow-hidden">
-          <div className="flex items-center gap-2 font-medium shrink-0">
-            <span className="bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 shrink-0">
-              <ShieldAlert className="w-3 h-3 text-amber-800" />
-              Latest QCOs
-            </span>
-            <span className="hidden sm:inline text-[11px] text-slate-700 dark:text-slate-300">Bureau of Indian Standards Quality Orders</span>
+          {/* Global Navigation Header */}
+          <div className="relative z-10">
+            <Header
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              language={language}
+              setLanguage={setLanguage}
+              onOpenQuickSearch={() => setIsQuickSearchOpen(true)}
+              isDark={isDark}
+              onToggleTheme={toggleTheme}
+              userEmail={userEmail}
+              onOpenLanding={() => setCurrentView('auth')}
+              onGoToLanding={handleBackToLanding}
+              onSignOut={handleSignOut}
+            />
           </div>
 
-          <div className="truncate text-slate-700 dark:text-slate-400 text-[11px]">
-            <span>
-              <strong>DPIIT / MeitY Gazette Orders:</strong> Mandatory QCO enforced for Toys (IS 9873), Footwear (IS 15298), Batteries (IS 16046), and Steel (IS 1786). Micro enterprises eligible for 50% marking fee concession.
-            </span>
-          </div>
+          {/* Live QCO Alert & Announcement Ribbon */}
+          <div className="relative z-10 bg-amber-50/90 dark:bg-amber-950/30 border-b border-amber-200/80 dark:border-amber-800/40 px-3 sm:px-6 lg:px-8 py-1.5 text-xs text-amber-950 dark:text-amber-200 transition-colors duration-300">
+            <div className="max-w-7xl mx-auto flex items-center justify-between gap-3 overflow-hidden">
+              <div className="flex items-center gap-2 font-medium shrink-0">
+                <span className="bg-amber-200 text-amber-900 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider flex items-center gap-1 shrink-0">
+                  <ShieldAlert className="w-3 h-3 text-amber-800" />
+                  Latest QCOs
+                </span>
+                <span className="hidden sm:inline text-[11px] text-slate-700 dark:text-slate-300">Bureau of Indian Standards Quality Orders</span>
+              </div>
 
-          <button
-            onClick={() => setActiveTab('standards')}
-            className="text-blue-700 hover:text-blue-900 font-semibold text-[11px] shrink-0 hover:underline hidden md:inline"
-          >
-            Browse QCOs →
-          </button>
-        </div>
-      </div>
+              <div className="truncate text-slate-700 dark:text-slate-400 text-[11px]">
+                <span>
+                  <strong>DPIIT / MeitY Gazette Orders:</strong> Mandatory QCO enforced for Toys (IS 9873), Footwear (IS 15298), Batteries (IS 16046), and Steel (IS 1786). Micro enterprises eligible for 50% marking fee concession.
+                </span>
+              </div>
+
+              <button
+                onClick={() => setActiveTab('standards')}
+                className="text-blue-700 hover:text-blue-900 font-semibold text-[11px] shrink-0 hover:underline hidden md:inline"
+              >
+                Browse QCOs →
+              </button>
+            </div>
+          </div>
 
       {/* Main Workspace Area */}
       <main className={`relative z-10 flex-1 max-w-7xl w-full mx-auto ${activeTab === 'chat' ? 'p-2 sm:p-3 lg:p-4' : 'p-3 sm:p-5 lg:p-6'}`}>
@@ -397,6 +400,8 @@ export default function App() {
           </div>
         </div>
       </footer>
+        </>
+      )}
     </div>
   );
 }
